@@ -31,7 +31,7 @@ class param:
 		print("Done! Device ID is " + imei)
 		return imei
 
-	def uin(dir):
+	def uin():
 		print("Retrieving UIN...")
 
 		try:
@@ -40,7 +40,7 @@ class param:
 			print("UIN Not Found!")
 			exit(1)
 
-		if util.md5sum("mm" + str(uin)).hexdigest() != dir:
+		if util.md5sum("mm" + str(uin)).hexdigest() != util.dir:
 			print("Wrong UIN!")
 			exit(1)
 
@@ -136,7 +136,7 @@ def main(argv):
 			break
 
 	imei = param.imei()
-	uin = param.uin(dir)
+	uin = param.uin()
 
 	util.hex = util.md5sum(imei + uin).hexdigest()[:7]
 	util.ff = util.md5sum(imei + uin).digest()
