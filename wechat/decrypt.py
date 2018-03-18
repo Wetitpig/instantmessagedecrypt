@@ -49,7 +49,6 @@ class param:
 
 
 class decrypt:
-		newbak = "/dbback/EnMicroMsgNew.db.bak"
 		bak = "/dbback/EnMicroMsg.db.bak"
 		prefix = "/sdcard/tencent/MicroMsg/"
 		sm = "/dbback/EnMicroMsg.db.sm"
