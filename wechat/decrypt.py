@@ -38,7 +38,7 @@ class param:
 			print("UIN Not Found!")
 			exit(1)
 
-		if util.md5sum("mm" + str(uin)).hexdigest() != util.dir:
+		if util.md5sum("mm" + str(uin)).hexdigest() != param.dir:
 			print("Wrong UIN!")
 			exit(1)
 
@@ -53,13 +53,13 @@ class decrypt:
 
 		def repair():
 			arglist = [util.bin + "dbrepair"]
-			arglist.extend(["--in-key", util.ff])
+			arglist.extend(["--verbose"])
+			arglist.extend(["--in-key", param.ff])
 			arglist.extend(["--output", decrypt.output])
 			arglist.extend(["--page-size", "1024"])
-			arglist.extend(["--load-master", decrypt.prefix + util.dir + decrypt.sm])
-			arglist.extend(["--version", "1"])
-			arglist.extend(["--master-key", util.ff])
-			arglist.extend([decrypt.prefix + util.dir + decrypt.bak])
+			arglist.extend(["--load-master", decrypt.prefix + param.dir + decrypt.sm])
+			arglist.extend(["--master-key", param.ff])
+			arglist.extend([decrypt.prefix + param.dir + decrypt.bak])
 
 			print("Repairing DB...")
 
@@ -72,8 +72,8 @@ class decrypt:
 			arglist = [util.bin + "dbbackup"]
 			arglist.extend(["recover"])
 			arglist.extend(["--verbose"])
-			arglist.extend(["--key", util.ff])
-			arglist.extend(["--output", decrypt.prefix + util.dir + decrypt.bak])
+			arglist.extend(["--key", param.ff])
+			arglist.extend(["--output", decrypt.prefix + param.dir + decrypt.bak])
 			arglist.extend(["--page-size", "1024"])
 			arglist.extend([decrypt.output])
 
@@ -100,11 +100,11 @@ def main(argv):
 			print("Done!")
 			exit(0)
 
-	for util.dir in os.listdir(decrypt.prefix[:-1]):
-		if len(util.dir) == 32:
+	for param.dir in os.listdir(decrypt.prefix[:-1]):
+		if len(param.dir) == 32:
 			break
 
-	util.ff = util.md5sum(param.imei() + param.uin()).digest()
+	param.ff = util.md5sum(param.imei() + param.uin()).digest()
 
 	try:
 		decrypt.repair()
@@ -121,7 +121,7 @@ def main(argv):
 		exit(-1)
 
 	print("Key: ")
-	print(util.ff)
+	print(param.ff)
 
 
 if __name__ == "__main__":
