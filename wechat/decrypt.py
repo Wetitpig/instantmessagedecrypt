@@ -18,9 +18,13 @@ class param:
 	def imei():
 		print("Retrieving Device ID...")
 
-		imei = Popen(["termux-telephony-deviceinfo"], stdout=PIPE)
-		imei = json.loads(imei.communicate()[0])
-		imei = imei["device_id"]
+		try:
+			imei = Popen(["termux-telephony-deviceinfo"], stdout=PIPE)
+			imei = json.loads(imei.communicate()[0])
+			imei = imei["device_id"]
+		except FileNotFoundError:
+			print("termux-api Not Installed!")
+			exit(1)
 
 		print("Done! Device ID is " + imei)
 		return imei
@@ -73,7 +77,7 @@ class decrypt:
 			arglist.extend(["--page-size", "1024"])
 			arglist.extend([decrypt.output])
 
-			print("Generating DB...")
+			print("Decrypting DB...")
 
 			b = Popen(arglist, stdout = PIPE, stderr = PIPE)
 			stdout, stderr = b.communicate()
@@ -96,15 +100,11 @@ def main(argv):
 			print("Done!")
 			exit(0)
 
-	for dir in os.listdir(decrypt.prefix[:-1]):
-		if len(dir) == 32:
-			util.dir = dir
+	for util.dir in os.listdir(decrypt.prefix[:-1]):
+		if len(util.dir) == 32:
 			break
 
-	imei = param.imei()
-	uin = param.uin()
-
-	util.ff = util.md5sum(imei + uin).digest()
+	util.ff = util.md5sum(param.imei() + param.uin()).digest()
 
 	try:
 		decrypt.repair()
@@ -120,7 +120,7 @@ def main(argv):
 		print("Decryption of DB Failed!")
 		exit(-1)
 
-	print("CHAR: ")
+	print("Key: ")
 	print(util.ff)
 
 

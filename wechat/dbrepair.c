@@ -55,7 +55,7 @@ static const struct option g_options[] =
 	{"save-master",		required_argument,	NULL, 'M'},
 	{"load-master",		required_argument,	NULL, 'm'},
 	{"filter",			required_argument,	NULL, 'f'},
-	{"master-key",		required_argument,	NULL, 0x201},
+	{"master-key",		required_argument,	NULL, 0x102},
 };
 
 
@@ -183,7 +183,7 @@ static void parse_options(int argc, char *argv[])
 			}
             sqlcipher_set_default_pagesize(value);
 			break;
-		case 0x201:
+		case 0x102:
 			g_master_key = optarg;
 			break;
         default:    // ?
