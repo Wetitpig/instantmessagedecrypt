@@ -127,8 +127,6 @@ def main(argv):
 		print("Decryption of DB Failed!")
 		exit(-1)
 
-
-	print()
 	print("HEX: ")
 	print(util.hex)
 
