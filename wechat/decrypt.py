@@ -52,13 +52,11 @@ class decrypt:
 		bak = "/dbback/EnMicroMsg.db.bak"
 		prefix = "/sdcard/tencent/MicroMsg/"
 		sm = "/dbback/EnMicroMsg.db.sm"
-		table = "EnMicroMsg.db"
 
 		def repair():
 			arglist = [util.bin + "dbrepair"]
 			arglist.extend(["--in-key", util.ff])
-			arglist.extend(["--out-key", util.hex])
-			arglist.extend(["--output", decrypt.table])
+			arglist.extend(["--output", decrypt.output])
 			arglist.extend(["--page-size", "1024"])
 			arglist.extend(["--load-master", decrypt.prefix + util.dir + decrypt.sm])
 			arglist.extend(["--version", "1"])
@@ -77,10 +75,9 @@ class decrypt:
 			arglist.extend(["recover"])
 			arglist.extend(["--verbose"])
 			arglist.extend(["--key", util.ff])
-			arglist.extend(["--dbkey", util.hex])
 			arglist.extend(["--output", decrypt.prefix + util.dir + decrypt.bak])
 			arglist.extend(["--page-size", "1024"])
-			arglist.extend([decrypt.table])
+			arglist.extend([decrypt.output])
 
 			print("Generating DB...")
 
@@ -88,31 +85,6 @@ class decrypt:
 			stdout, stderr = b.communicate()
 			print(stdout.decode(util.encoding))
 			print(stderr.decode(util.encoding))
-
-		def decrypt():
-			print ("Decrypting DB...")
-			print()
-
-			conn = sqlite3.connect(decrypt.table)
-			print("Input Connected!")
-			c = conn.cursor()
-
-			c.execute("PRAGMA key = '" + util.hex + "';")
-			c.execute("PRAGMA cipher_use_hmac = OFF;")
-			c.execute("PRAGMA cipher_page_size = 1024;")
-			c.execute("PRAGMA kdf_iter = 4000;")
-			print("Settings: HMAC = OFF, PAGE_SIZE = 1024, KDF_ITERATION = 4000")
-
-			c.execute("ATTACH DATABASE '" + decrypt.output + "' AS db KEY '';")
-			print("Output Attached!")
-			c.execute("SELECT sqlcipher_export('db');" )
-			print("Input Deciphered!")
-			c.execute("DETACH DATABASE db;" )
-			print("Output Exported!")
-			c.close()
-
-			os.remove(decrypt.table)
-			print("Temp DB Removed!")
 
 
 def main(argv):
@@ -152,15 +124,9 @@ def main(argv):
 		decrypt.backup()
 	except Error as e:
 		print(e)
-		print("Generation of DB Failed!")
-		exit(-1)
-
-	try:
-		decrypt.decrypt()
-	except Error as e:
-		print(e)
 		print("Decryption of DB Failed!")
 		exit(-1)
+
 
 	print()
 	print("HEX: ")
