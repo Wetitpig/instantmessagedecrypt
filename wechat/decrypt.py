@@ -4,12 +4,6 @@ from hashlib import md5
 from subprocess import *
 import json
 
-try:
-	from pysqlcipher3 import dbapi2 as sqlite3
-except ModuleNotFoundError:
-	print("pysqlcipher3 Not Installed!")
-	exit(1)
-
 
 class util:
 	bin = "/data/data/com.termux/files/home/"
@@ -96,7 +90,7 @@ def main(argv):
 	if os.path.isfile(decrypt.output):
 		print("Delete old one? (Y/N)")
 		ans = input()
-		if ans == 'Y':
+		if ans == 'Y' or ans == 'y':
 			os.remove(decrypt.output)
 		else:
 			print("Done!")
@@ -110,7 +104,6 @@ def main(argv):
 	imei = param.imei()
 	uin = param.uin()
 
-	util.hex = util.md5sum(imei + uin).hexdigest()[:7]
 	util.ff = util.md5sum(imei + uin).digest()
 
 	try:
@@ -126,9 +119,6 @@ def main(argv):
 		print(e)
 		print("Decryption of DB Failed!")
 		exit(-1)
-
-	print("HEX: ")
-	print(util.hex)
 
 	print("CHAR: ")
 	print(util.ff)
