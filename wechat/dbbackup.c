@@ -21,7 +21,7 @@
 #define SQLITE_HAS_CODEC 1
 
 #include <sqlcipher/sqlite3.h>
-#include "../backup/mm_backup.h"
+#include "mm_backup.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

@@ -21,7 +21,7 @@
 #define SQLITE_HAS_CODEC 1
 
 #include <sqlcipher/sqlite3.h>
-#include "../repair/SQLiteRepairKit.h"
+#include "SQLiteRepairKit.h"
 #include <stdio.h>
 #include <getopt.h>
 
