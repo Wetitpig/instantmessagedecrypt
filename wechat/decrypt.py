@@ -3,6 +3,7 @@ import sys
 from hashlib import md5
 from subprocess import *
 import json
+import time
 
 
 class util:
@@ -16,7 +17,7 @@ class util:
 class param:
 
 	def imei():
-		print("Retrieving Device ID...")
+		print("\nRetrieving Device ID...")
 
 		try:
 			imei = Popen(["termux-telephony-deviceinfo"], stdout=PIPE)
@@ -30,7 +31,7 @@ class param:
 		return imei
 
 	def uin():
-		print("Retrieving UIN...")
+		print("\nRetrieving UIN...")
 
 		try:
 			uin = open("/sdcard/tencent/uin", "r").read()[:-1]
@@ -61,12 +62,14 @@ class decrypt:
 			arglist.extend(["--master-key", param.ff])
 			arglist.extend([decrypt.prefix + param.dir + decrypt.bak])
 
-			print("Repairing DB...")
+			print("\nRepairing DB...")
 
 			s = Popen(arglist, stdout = PIPE, stderr = PIPE)
 			stdout, stderr = s.communicate()
 			print(stdout.decode(util.encoding))
 			print(stderr.decode(util.encoding))
+
+			print("Done! DB Repaired!")
 
 		def backup():
 			arglist = [util.bin + "dbbackup"]
@@ -77,15 +80,18 @@ class decrypt:
 			arglist.extend(["--page-size", "1024"])
 			arglist.extend([decrypt.output])
 
-			print("Decrypting DB...")
+			print("\nDecrypting DB...")
 
 			b = Popen(arglist, stdout = PIPE, stderr = PIPE)
 			stdout, stderr = b.communicate()
 			print(stdout.decode(util.encoding))
 			print(stderr.decode(util.encoding))
 
+			print("Done! DB Decrypted!")
+
 
 def main(argv):
+	start = time.time()
 	if len(argv) == 1:
 		decrypt.output = "MicroMsg.db"
 	else:
@@ -120,8 +126,11 @@ def main(argv):
 		print("Decryption of DB Failed!")
 		exit(-1)
 
-	print("Key: ")
+	print("\nKey: ")
 	print(param.ff)
+
+	print("\nDone! Time elapsed: ")
+	print(str(time.time() - start) + "s")
 
 
 if __name__ == "__main__":
