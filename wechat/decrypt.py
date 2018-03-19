@@ -62,7 +62,7 @@ class decrypt:
 			arglist.extend(["--master-key", param.ff])
 			arglist.extend([decrypt.prefix + param.dir + decrypt.bak])
 
-			print("\nRepairing DB...")
+			print("\n[ Step 1 of 2 ] Repairing DB...")
 
 			s = Popen(arglist, stdout = PIPE, stderr = PIPE)
 			stdout, stderr = s.communicate()
@@ -80,7 +80,7 @@ class decrypt:
 			arglist.extend(["--page-size", "1024"])
 			arglist.extend([decrypt.output])
 
-			print("\nDecrypting DB...")
+			print("\n[ Step 2 of 2 ] Decrypting DB...")
 
 			b = Popen(arglist, stdout = PIPE, stderr = PIPE)
 			stdout, stderr = b.communicate()
