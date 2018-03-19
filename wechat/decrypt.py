@@ -7,6 +7,7 @@ import time
 
 
 class util:
+
 	bin = "/data/data/com.termux/files/home/"
 	encoding = sys.getdefaultencoding()
 
@@ -17,7 +18,7 @@ class util:
 class param:
 
 	def imei():
-		print("\nRetrieving Device ID...")
+		print("\n[ Step 1 of 4 ] Retrieving Device ID...")
 
 		try:
 			imei = Popen(["termux-telephony-deviceinfo"], stdout=PIPE)
@@ -31,7 +32,7 @@ class param:
 		return imei
 
 	def uin():
-		print("\nRetrieving UIN...")
+		print("\n[ Step 2 of 4 ] Retrieving UIN...")
 
 		try:
 			uin = open("/sdcard/tencent/uin", "r").read()[:-1]
@@ -48,6 +49,7 @@ class param:
 
 
 class decrypt:
+
 		bak = "/dbback/EnMicroMsg.db.bak"
 		prefix = "/sdcard/tencent/MicroMsg/"
 		sm = "/dbback/EnMicroMsg.db.sm"
@@ -62,7 +64,7 @@ class decrypt:
 			arglist.extend(["--master-key", param.ff])
 			arglist.extend([decrypt.prefix + param.dir + decrypt.bak])
 
-			print("\n[ Step 1 of 2 ] Repairing DB...")
+			print("\n[ Step 3 of 4 ] Repairing DB...")
 
 			s = Popen(arglist, stdout = PIPE, stderr = PIPE)
 			stdout, stderr = s.communicate()
@@ -80,7 +82,7 @@ class decrypt:
 			arglist.extend(["--page-size", "1024"])
 			arglist.extend([decrypt.output])
 
-			print("\n[ Step 2 of 2 ] Decrypting DB...")
+			print("\n[ Step 4 of 4 ] Decrypting DB...")
 
 			b = Popen(arglist, stdout = PIPE, stderr = PIPE)
 			stdout, stderr = b.communicate()
