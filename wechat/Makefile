@@ -16,6 +16,12 @@ install:
 	cp $(targets) $(PREFIX)/home
 	cp decrypt.py $(PREFIX)/home/storage/shared/tencent
 
+uninstall:
+	for f in $(target); do \
+		rm $(PREFIX)/home/$$f; \
+	done
+	rm $(PREFIX)/home/storage/shared/tencent/decrypt.py
+
 clean:
 	rm -f $(targets)
 

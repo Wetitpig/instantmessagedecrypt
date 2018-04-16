@@ -1,6 +1,6 @@
 SUBDIRS = wechat
 
-PROCESSES = all clean install
+PROCESSES = all clean install uninstall
 
 $(PROCESSES):
 	for dir in $(SUBDIRS); do \
