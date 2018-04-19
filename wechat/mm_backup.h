@@ -21,7 +21,7 @@
 #ifndef __MM_BACKUP_H__
 #define __MM_BACKUP_H__
 
-#include "sqlcipher/sqlite3.h"
+#include "sqlite3.h"
 #include <stdint.h>
 
 #ifdef __cplusplus
