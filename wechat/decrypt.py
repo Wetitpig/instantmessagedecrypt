@@ -1,3 +1,5 @@
+#!/data/data/com.termux/files/usr/bin/python
+
 import os
 import sys
 from hashlib import md5
@@ -116,14 +118,14 @@ def main(argv):
 
 	try:
 		decrypt.repair()
-	except Error as e:
+	except Exception as e:
 		print(e)
 		print("Repair of DB Failed!")
 		exit(-1)
 
 	try:
 		decrypt.backup()
-	except Error as e:
+	except Exception as e:
 		print(e)
 		print("Decryption of DB Failed!")
 		exit(-1)
